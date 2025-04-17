@@ -156,9 +156,12 @@ def cuantizacion_ADC (B,kn):
     
     plt.figure(6)
     bins = 10
-    plt.hist(nq.flatten()/(q), bins=bins)
-    plt.plot( np.array([-1/2, -1/2, 1/2, 1/2]), np.array([0, N/bins, N/bins, 0]), '--r' )
+    plt.hist(nq.flatten(), bins=bins)
+    plt.plot( np.array([-q/2, -q/2, q/2, q/2]), np.array([0, N/bins, N/bins, 0]), '--r' )
     plt.title( 'Ruido de cuantización para {:d} bits - $\pm V_R= $ {:3.1f} V - q = {:3.3f} V'.format(B, Vf, q))
+    plt.ylabel('Cantidad de muestras')
+    
+    
     return
 
-cuantizacion_ADC(B=4, kn=1/10)
+cuantizacion_ADC(B=4, kn=1)
