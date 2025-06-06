@@ -60,5 +60,5 @@ def funcion_triangular(fs, n, ff, vmax, ph, dc):
 N = 1000 # Cantidad de muestras a analizar
 Fs = 1000
 funcion_senoidal(1, 0, 1, 0, N, Fs)
-funcion_triangular(Fs, N, 5,1,0,0)
+#funcion_triangular(Fs, N, 5,1,0,0)
 
