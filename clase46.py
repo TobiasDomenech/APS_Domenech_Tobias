@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 from pytc2.sistemas_lineales import plot_plantilla
 import scipy.io as sio
 
+# MATCHED FILTRER
+
 mat_struct = sio.loadmat('./ECG_TP4.mat')
 ecg_one_lead = mat_struct['ecg_lead'].flatten()
 N = len(ecg_one_lead)
@@ -35,6 +37,8 @@ plt.grid(True)
 plt.show()
 
 # %%
+
+# FILTRADO ESPACIAL
 
 mat_struct = sio.loadmat('./ECG_TP4.mat')
 ecg_one_lead = (mat_struct['ecg_lead']/np.std(mat_struct['ecg_lead'])).flatten()

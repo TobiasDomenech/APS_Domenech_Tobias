@@ -4,7 +4,7 @@ Created on Wed May  7 19:30:38 2025
 
 @author: Tobi
 """
-
+#%%
 import numpy as np
 from scipy import signal as sig
 
@@ -18,6 +18,9 @@ import pandas as pd
 def vertical_flaten(a):
 
     return a.reshape(a.shape[0],1)
+#%%
+
+
 
 def blackman_tukey(x,  M = None):    
     
@@ -44,14 +47,24 @@ def blackman_tukey(x,  M = None):
 
     return Px;
 
-def estimacion_PSD_y_BW (signal, fs, titulo = "Nombre de la señal", es_silbido = False):
+def estimacion_PSD_y_BW (signal, fs, titulo = "Nombre de la señal"):
     N = len(signal)
     
+    if titulo == "ECG con ruido":
+        M = N//3
+    if titulo == "ECG sin ruido":
+        M = N//4
+    if titulo == "PPG con ruido":
+        M = N//4
+    if titulo == "PPG sin ruido":
+        M = N//5
+    if titulo == "La Cucaracha":
+        M = N//2
+    if titulo == "Prueba de Audio":
+        M = N//2
+    if titulo == "Silbido":
+        M = N//2
     
-    if es_silbido:
-        M = N // 4
-    else:
-        M = N // 10
     
     #Normalizo por varianza
     signal = signal/np.std(signal)
@@ -103,6 +116,7 @@ def estimacion_PSD_y_BW (signal, fs, titulo = "Nombre de la señal", es_silbido 
     plt.tight_layout()
     plt.show()
     
+    
     print(f"Frecuencia al 95% de la energía acumulada: {f95:.2f} Hz")
     print(f"Frecuencia al 98% de la energía acumulada: {f98:.2f} Hz")
  
@@ -128,8 +142,8 @@ mat_struct = sio.loadmat('./ECG_TP4.mat')
 ecg_noise = vertical_flaten(mat_struct['ecg_lead'])
 ecg_noise = mat_struct['ecg_lead'].reshape(-1, 1)
 
-f95_ECG_noise, f98_ECG_noise = estimacion_PSD_y_BW (ecg_noise, fs_ecg, titulo = "ECG con ruido" )
-
+f95_ECG_noise, f98_ECG_noise = estimacion_PSD_y_BW (ecg_noise, fs_ecg, titulo = "ECG con ruido")
+#%%
 
 ##################
 ## ECG sin ruido
@@ -188,7 +202,7 @@ fs_audio3, wav_data3 = sio.wavfile.read('silbido.wav')
 if wav_data3.ndim > 1:
     wav_data3 = wav_data3[:, 0]
 wav_data3 = wav_data3.astype(np.float64)
-f95_silbido, f98_silbido = estimacion_PSD_y_BW (wav_data3, fs_audio3, titulo = "Silbido", es_silbido=True )
+f95_silbido, f98_silbido = estimacion_PSD_y_BW (wav_data3, fs_audio3, titulo = "Silbido")
 
 # Crear tabla de resultados
 tabla = pd.DataFrame({
