@@ -28,14 +28,15 @@ aprox_name = 'butter'
 
 fs = 1000
 nyq_frec = fs/2
+fs_norma = 2
 # Diseño filtro: bandpass
 
-fpass = np.array( [1.0, 35] ) 
+fpass = np.array( [1.0, 35] )/nyq_frec 
 ripple = 1 # dB alfamax
-fstop = np.array( [0.1, 50] ) 
+fstop = np.array( [0.1, 50] )/nyq_frec
 attenuation = 40 # dB alfamin
 
-sos = sig.iirdesign(fpass, fstop, ripple, attenuation, ftype = aprox_name, output= 'sos', fs = fs) 
+sos = sig.iirdesign(fpass, fstop, ripple, attenuation, ftype = aprox_name, output= 'sos', fs = fs_norma) 
 
 # Análisis filtro
 
@@ -46,7 +47,7 @@ w_rad = np.append(np.logspace(-2,0.8,250), np.logspace(0.9,1.6,250))
 w_rad = np.append(w_rad,np.linspace(40, nyq_frec, 500, endpoint=True)) / nyq_frec
 
 w, hh = sig.sosfreqz(sos, worN=npoints)
-plt.plot(w/np.pi*nyq_frec, 20*np.log10(np.abs(hh)+1e-15), label='sos')
+plt.plot(w/np.pi, 20*np.log10(np.abs(hh)+1e-15), label='sos')
 
 
 plt.title('Plantilla de diseño')
@@ -58,7 +59,7 @@ ax = plt.gca()
 #ax.set_xlim([0, 1])
 #ax.set_ylim([-60, 1])
 
-plot_plantilla(filter_type = 'bandpass' , fpass = fpass, ripple = ripple , fstop = fstop, attenuation = attenuation, fs = fs)
+plot_plantilla(filter_type = 'bandpass' , fpass = fpass, ripple = ripple , fstop = fstop, attenuation = attenuation, fs = fs_norma)
 plt.legend()
 plt.show()
 
